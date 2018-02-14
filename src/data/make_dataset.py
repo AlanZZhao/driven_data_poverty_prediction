@@ -102,31 +102,31 @@ def main():
     c_i_test = pd.read_csv(individual_paths['C']['test'], index_col=['id', 'iid'])
 
     # run processing of data
-    aX_h_train = pre_process_data(a_h_train.drop('poor', axis=1))
+    aX_h_train = pre_process_data(a_h_train.drop(['poor', 'country'], axis=1))
     ay_h_train = np.ravel(a_h_train.poor)
 
-    bX_h_train = pre_process_data(b_h_train.drop('poor', axis=1))
+    bX_h_train = pre_process_data(b_h_train.drop(['poor', 'country'], axis=1))
     by_h_train = np.ravel(b_h_train.poor)
 
-    cX_h_train = pre_process_data(c_h_train.drop('poor', axis=1))
+    cX_h_train = pre_process_data(c_h_train.drop(['poor', 'country'], axis=1))
     cy_h_train = np.ravel(c_h_train.poor)
 
-    aX_i_train = pre_process_data(a_i_train.drop('poor', axis=1))
+    aX_i_train = pre_process_data(a_i_train.drop(['poor', 'country'], axis=1))
     ay_i_train = np.ravel(a_i_train.poor)
 
-    bX_i_train = pre_process_data(b_i_train.drop('poor', axis=1))
+    bX_i_train = pre_process_data(b_i_train.drop(['poor', 'country'], axis=1))
     by_i_train = np.ravel(b_i_train.poor)
 
-    cX_i_train = pre_process_data(c_i_train.drop('poor', axis=1))
+    cX_i_train = pre_process_data(c_i_train.drop(['poor', 'country'], axis=1))
     cy_i_train = np.ravel(c_i_train.poor)
 
-    a_h_test = pre_process_data(a_h_test, enforce_cols=aX_h_train.columns)
-    b_h_test = pre_process_data(b_h_test, enforce_cols=bX_h_train.columns)
-    c_h_test = pre_process_data(c_h_test, enforce_cols=cX_h_train.columns)
+    a_h_test = pre_process_data(a_h_test.drop('country', axis=1), enforce_cols=aX_h_train.columns)
+    b_h_test = pre_process_data(b_h_test.drop('country', axis=1), enforce_cols=bX_h_train.columns)
+    c_h_test = pre_process_data(c_h_test.drop('country', axis=1), enforce_cols=cX_h_train.columns)
 
-    a_i_test = pre_process_data(a_i_test, enforce_cols=aX_i_train.columns)
-    b_i_test = pre_process_data(b_i_test, enforce_cols=bX_i_train.columns)
-    c_i_test = pre_process_data(c_i_test, enforce_cols=cX_i_train.columns)
+    a_i_test = pre_process_data(a_i_test.drop('country', axis=1), enforce_cols=aX_i_train.columns)
+    b_i_test = pre_process_data(b_i_test.drop('country', axis=1), enforce_cols=bX_i_train.columns)
+    c_i_test = pre_process_data(c_i_test.drop('country', axis=1), enforce_cols=cX_i_train.columns)
 
     bX_h_train = impute(bX_h_train)
     b_h_test = impute(b_h_test)
