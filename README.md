@@ -1,7 +1,11 @@
 driven_data_poverty_prediction
 ==============================
 
-Shadie and Alan try a Driven Data competition
+Shadie (MSc Statistics '18) and Alan (MBA '18) try a Driven Data competition.
+
+During the competition, this repo represented our collaborative work flow over the 5-week long competition.
+
+This repo documents our various models, reports, and submissions and follows the cookie-cutter data science approach with minor changes to account for the submission based nature.
 
 Project Organization
 ------------
