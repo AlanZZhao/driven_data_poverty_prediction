@@ -42,6 +42,10 @@ def standardize(df, numeric_only=True):
 
     return df
 
+def get_categorical_indices(input_data):
+    """helper func to pull any categorical feature indices out"""
+    categorical_features_indices = np.where(input_data.dtypes != np.float)[0]
+    return categorical_features_indices
 
 def pre_process_data(df, enforce_cols=None):
     print("Input shape:\t{}".format(df.shape))
@@ -49,11 +53,6 @@ def pre_process_data(df, enforce_cols=None):
 
     df = standardize(df)
     print("After standardization {}".format(df.shape))
-
-    # create dummy variables for categoricals
-    df = pd.get_dummies(df)
-    print("After converting categoricals:\t{}".format(df.shape))
-
 
     # match test set and training set columns
     if enforce_cols is not None:
@@ -66,17 +65,6 @@ def pre_process_data(df, enforce_cols=None):
     #df.fillna(0, inplace=True)
 
     return df
-
-def impute(df, type='household', perturbation_method='gaussian', k_pmm=20, history_callback=None):
-    # wrapper for impute to preserve index
-
-    if type is 'household':
-        index = df.index
-
-    imputed_df = mice.MICEData(df, perturbation_method, k_pmm, history_callback).data
-
-    imputed_df.set_index(index, inplace=True)
-    return imputed_df
 
 
 def main():
@@ -128,13 +116,6 @@ def main():
     b_i_test = pre_process_data(b_i_test.drop('country', axis=1), enforce_cols=bX_i_train.columns)
     c_i_test = pre_process_data(c_i_test.drop('country', axis=1), enforce_cols=cX_i_train.columns)
 
-    bX_h_train = impute(bX_h_train)
-    b_h_test = impute(b_h_test)
-    aX_i_train = impute(aX_i_train)
-    a_i_test = impute(a_i_test)
-    bX_i_train = impute(bX_i_train)
-    b_i_test = impute(b_i_test)
-
     # save data
     aX_h_train.to_csv(os.path.join(OUTPUT_DATA_DIR, 'aX_h_train.csv'))
     np.save(os.path.join(OUTPUT_DATA_DIR, 'ay_h_train.npy'), ay_h_train)
@@ -161,7 +142,3 @@ def main():
     a_i_test.to_csv(os.path.join(OUTPUT_DATA_DIR, 'a_i_test.csv'))
     b_i_test.to_csv(os.path.join(OUTPUT_DATA_DIR, 'b_i_test.csv'))
     c_i_test.to_csv(os.path.join(OUTPUT_DATA_DIR, 'c_i_test.csv'))
-
-
-if __name__ == '__main__':
-    main()
