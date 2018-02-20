@@ -5,7 +5,7 @@ from src.data.processed_data import aX_i_train, ay_i_train, bX_i_train, by_i_tra
 from src.data.make_dataset import get_categorical_indices
 
 import numpy as np
-from catboost import CatBoostClassifier
+from catboost import CatBoostClassifier, cv, Pool
 from sklearn.cross_validation import StratifiedKFold
 
 
@@ -24,3 +24,11 @@ model_b.fit(bX_i_train, by_i_train, cat_features=b_indices)
 model_c = CatBoostClassifier(nan_mode='Min')
 model_c.fit(cX_i_train, cy_i_train, cat_features=c_indices)
 
+cv_data_a = cv(params = model_a.get_params(), pool = Pool(aX_i_train, ay_i_train, cat_features=a_indices))
+a_score = cv_data_a['Logloss_test_avg'][-1]
+
+cv_data_b = cv(params = model_b.get_params(), pool = Pool(bX_i_train, by_i_train, cat_features=b_indices))
+b_score = cv_data_b['Logloss_test_avg'][-1]
+
+cv_data_c = cv(params = model_c.get_params(), pool = Pool(cX_i_train, cy_i_train, cat_features=c_indices))
+c_score = cv_data_c['Logloss_test_avg'][-1]
