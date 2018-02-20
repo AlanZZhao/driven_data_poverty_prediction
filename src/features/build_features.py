@@ -14,9 +14,12 @@ INTERIM_DATA_DIR = os.path.join(os.path.dirname(Path(__file__).parents[1]), 'dat
 
 
 # load models
-model_a_cccv = joblib.load(os.path.join(MODEL_DIR, 'individual_a_cccv.pkl'))
+model_a_cccv = joblib.load(os.path.join(MODEL_DIR, 'individual_a_cccv_cont.pkl'))
 model_b_cccv = joblib.load(os.path.join(MODEL_DIR, 'individual_b_cccv.pkl'))
 model_c_cccv = joblib.load(os.path.join(MODEL_DIR, 'individual_c_cccv.pkl'))
+
+aX_i_train = aX_i_train.iloc[:,0:2]
+a_i_test = a_i_test.iloc[:,0:2]
 
 # make predictions, add as to individual dataset
 a_preds = model_a_cccv.predict_proba(aX_i_train)
@@ -47,6 +50,15 @@ individual_predictions = pd.concat([aX_i_train, bX_i_train, cX_i_train])
 a_i_test, b_i_test, c_i_test = summarize_predictions(a_i_test), summarize_predictions(b_i_test), summarize_predictions(c_i_test)
 
 individual_predictions_test = pd.concat([a_i_test, b_i_test, c_i_test])
+
+aX_h_train = aX_h_train.iloc[:,0:4]
+a_h_test = a_h_test.iloc[:,0:4]
+
+bX_h_train = bX_h_train.iloc[:,0:23]
+b_h_test = b_h_test.iloc[:,0:23]
+
+cX_h_train = cX_h_train.iloc[:,0:30]
+c_h_test = c_h_test.iloc[:,0:30]
 
 # save as final household data
 aX_h_train = aX_h_train.merge(individual_predictions, how='left', left_index=True, right_index=True)

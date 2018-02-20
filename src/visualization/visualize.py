@@ -11,3 +11,9 @@ def plot_confusion_matrix(test_labels, pred):
                       columns = [0, 1])
     plt.figure(figsize = (10,7))
     sns.heatmap(df_cm, annot=True, cmap='Blues', fmt='g')
+
+
+# boxplot of predictions
+def plot_probilities(model, test_set):
+    probs = model.predict_proba(test_set)
+    sns.boxplot(data=probs[:,1])

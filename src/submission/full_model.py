@@ -11,7 +11,7 @@ MODEL_DIR = os.path.join(os.path.dirname(Path(__file__).parents[1]), 'models/')
 SUBMISSION_DATA_DIR = os.path.join(os.path.dirname(Path(__file__).parents[1]), 'data/submission')
 
 # load models
-model_a = joblib.load(os.path.join(MODEL_DIR, 'household_a_rf.pkl'))
+model_a = joblib.load(os.path.join(MODEL_DIR, 'household_a_lr_cont.pkl'))
 model_b = joblib.load(os.path.join(MODEL_DIR, 'household_b_rf_oversample.pkl'))
 model_c = joblib.load(os.path.join(MODEL_DIR, 'household_c_rf_oversample.pkl'))
 
@@ -26,4 +26,4 @@ sub_b = make_country_sub(preds_b, b_h_test, 'B')
 sub_c = make_country_sub(preds_c, c_h_test, 'C')
 
 submission = pd.concat([sub_a, sub_b, sub_c]).reset_index()
-submission.to_csv(os.path.join(SUBMISSION_DATA_DIR, 'full_model_rf_abc.csv'), index=False)
+submission.to_csv(os.path.join(SUBMISSION_DATA_DIR, 'full_model_rf_bc_lr_a_cont.csv'), index=False)

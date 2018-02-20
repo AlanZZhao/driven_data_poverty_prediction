@@ -11,13 +11,15 @@ import os
 
 MODEL_DIR = os.path.join(os.path.dirname(Path(__file__).parents[1]), 'models/')
 
+aX_i_train = aX_i_train.iloc[:,0:2]
+
 # set generic Gradient Boosting as classifier
 model = GradientBoostingClassifier(n_estimators=100, learning_rate=0.1, random_state=0)
 
 model_a_cccv=CalibratedClassifierCV(model, cv=3)
 
 model_a_cccv.fit(aX_i_train, ay_i_train)
-
+"""
 model_b_cccv=CalibratedClassifierCV(model, cv=3)
 
 model_b_cccv.fit(bX_i_train, by_i_train)
@@ -25,9 +27,11 @@ model_b_cccv.fit(bX_i_train, by_i_train)
 model_c_cccv=CalibratedClassifierCV(model, cv=3)
 
 model_c_cccv.fit(cX_i_train, cy_i_train)
+"""
 
 # persist models
-joblib.dump(model_a_cccv, os.path.join(MODEL_DIR, 'individual_a_cccv.pkl'))
+joblib.dump(model_a_cccv, os.path.join(MODEL_DIR, 'individual_a_cccv_cont.pkl'))
+"""
 joblib.dump(model_b_cccv, os.path.join(MODEL_DIR, 'individual_b_cccv.pkl'))
 joblib.dump(model_c_cccv, os.path.join(MODEL_DIR, 'individual_c_cccv.pkl'))
-
+"""
